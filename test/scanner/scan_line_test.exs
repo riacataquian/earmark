@@ -22,5 +22,6 @@ defmodule Earmark.Scanner.ScanLineTest do
     assert Scanner.scan_line( "_ ___ _" ) == [%Scanner.Ruler{content: "_ ___ _", type: "_"}]
     assert Scanner.scan_line( "---" ) == [%Scanner.Ruler{content: "---", type: "-"}]
     assert Scanner.scan_line( "_ _")  == [%Scanner.Text{content: "_ _"}]
+    assert Scanner.scan_line( "**")  == [%Scanner.Text{content: "**"}]
   end 
 end
