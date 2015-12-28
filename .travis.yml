@@ -1,9 +1,9 @@
 language: elixir
 sudo: false
 
-# branches:
-#   only:
-#     - master
+branches:
+  only:
+    - master
 
 elixir:
   - 1.0.5
