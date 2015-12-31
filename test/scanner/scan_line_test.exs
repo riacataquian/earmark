@@ -9,10 +9,10 @@ defmodule Earmark.Scanner.ScanLineTest do
     { " alpha",     [ %Scanner.Text{content: " alpha"}] },
     { "   alpha",   [ %Scanner.Text{content: "   alpha"}] },
 
-    # Leading Whitespace
-    { "    alpha",          [ %Scanner.LeadingWS{count: 4},%Scanner.Text{content: "alpha"}] },
-    { "     alpha",         [ %Scanner.LeadingWS{count: 5},%Scanner.Text{content: "alpha"}] },
-    { "     # no headline", [ %Scanner.LeadingWS{count: 5},%Scanner.Text{content: "# no headline"}] },
+    # Indent
+    { "    alpha",          [ %Scanner.Indent{count: 4},%Scanner.Text{content: "alpha"}] },
+    { "     alpha",         [ %Scanner.Indent{count: 5},%Scanner.Text{content: "alpha"}] },
+    { "     # no headline", [ %Scanner.Indent{count: 5},%Scanner.Text{content: "# no headline"}] },
 
     # Rulers
     { "***",     [ %Scanner.RulerFat{}] },
@@ -42,7 +42,7 @@ defmodule Earmark.Scanner.ScanLineTest do
     # Backtix
     { "`",           [ %Scanner.Backtix{count: 1}]},
     { " `````a",     [ %Scanner.Text{content: " "},%Scanner.Backtix{count: 5},%Scanner.Text{content: "a"}]},
-    { "     `````a", [ %Scanner.LeadingWS{count: 5},%Scanner.Backtix{count: 5},%Scanner.Text{content: "a"}]},
+    { "     `````a", [ %Scanner.Indent{count: 5},%Scanner.Backtix{count: 5},%Scanner.Text{content: "a"}]},
 
     # CodeFences
     { "~~~",        [ %Scanner.CodeFence{}]},
@@ -54,8 +54,19 @@ defmodule Earmark.Scanner.ScanLineTest do
     { "-- ",     [ %Scanner.UnderHeadline{level: 2}]},
     { "--- ",    [ %Scanner.RulerThin{}]},
     { " =",      [ %Scanner.Text{content: " ="}]},
-    { "- =",     [ %Scanner.Text{content: "- ="}]},
-    { "    ---", [ %Scanner.LeadingWS{count: 4}, %Scanner.Text{content: "---"}]},
+    { "    ---", [ %Scanner.Indent{count: 4}, %Scanner.Text{content: "---"}]},
+
+    # ListItem
+    { "* x",       [ %Scanner.ListItem{type: :ul, bullet: "*"}, %Scanner.Text{content: "x"}]},
+    { "- x",       [ %Scanner.ListItem{type: :ul, bullet: "-"}, %Scanner.Text{content: "x"}]},
+    { "- =",       [ %Scanner.ListItem{type: :ul, bullet: "-"}, %Scanner.Text{content: "="}]},
+    { "100. x",    [ %Scanner.ListItem{type: :ol, bullet: ""}, %Scanner.Text{content: "x"}]},
+    { "   100. x", [ %Scanner.Text{content: "   "}, %Scanner.ListItem{type: :ol, bullet: ""}, %Scanner.Text{content: "x"}]},
+    { " * x",      [ %Scanner.Text{content: " "}, %Scanner.ListItem{type: :ul, bullet: "*"}, %Scanner.Text{content: "x"}]},
+    { "     * x",  [ %Scanner.Indent{count: 5}, %Scanner.Text{content: "* x"}]},
+    { "*x",        [ %Scanner.Text{content: "*x"}]},
+    { " *x",       [ %Scanner.Text{content: " *x"}]},
+    
   ]
   |> Enum.each(fn { text, tokens } -> 
     test("line: '" <> text <> "'") do
