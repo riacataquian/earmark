@@ -67,6 +67,11 @@ defmodule Earmark.Scanner.ScanLineTest do
     { "*x",        [ %Scanner.Text{content: "*x"}]},
     { " *x",       [ %Scanner.Text{content: " *x"}]},
     
+    # Blockquote
+    { ">",         [ %Scanner.Blockquote{} ]},
+    { "> alpha",   [ %Scanner.Blockquote{}, %Scanner.Text{content: " alpha"} ]},
+    { ">alpha",    [ %Scanner.Text{content: ">alpha"}]},
+    { " >",        [ %Scanner.Text{content: " >"}]},
   ]
   |> Enum.each(fn { text, tokens } -> 
     test("line: '" <> text <> "'") do
