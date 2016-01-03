@@ -74,12 +74,12 @@ defmodule Earmark.Scanner.ScanLineTest do
     { " >",        [ %Scanner.Text{content: " >"}]},
 
     # IdClose
-    { "[foo]",     [ %Scanner.IdClose{id: "foo"} ]},
-    { " [foo]",    [ %Scanner.Text{content: " "}, %Scanner.IdClose{id: "foo"} ]},
-    { "> [x]",     [ %Scanner.Blockquote{}, %Scanner.Text{content: " [x]"}]},
-    { "    a [x]", [ %Scanner.Indent{count: 4}, %Scanner.Text{content: "a [x]"}]},
-    { " a    [x]", [ %Scanner.Text{content: " a    "}, %Scanner.IdClose{id: "x"}]},
-    { " a[x]:",    [ %Scanner.Text{content: " a[x]:"}]},
+    # { "[foo]",     [ %Scanner.IdClose{id: "foo"} ]},
+    # { " [foo]",    [ %Scanner.Text{content: " "}, %Scanner.IdClose{id: "foo"} ]},
+    # { "> [x]",     [ %Scanner.Blockquote{}, %Scanner.Text{content: " [x]"}]},
+    # { "    a [x]", [ %Scanner.Indent{count: 4}, %Scanner.Text{content: "a [x]"}]},
+    # { " a    [x]", [ %Scanner.Text{content: " a    "}, %Scanner.IdClose{id: "x"}]},
+    # { " a[x]:",    [ %Scanner.Text{content: " a[x]:"}]},
 
     # IdOpen
     { "[ bar ]:",  [ %Scanner.IdOpen{id: " bar "} ]},
