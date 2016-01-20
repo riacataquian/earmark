@@ -514,5 +514,18 @@
     "html": "<p>Multiple     spaces</p>\n",
     "example": 599,
     "markdown": "Multiple     spaces\n"
+  },
+  { 
+    "section": "Ids",
+    "example": 601,
+    "markdown": "[hello there]: world\n and so on\n [hello there]",
+    "html": "<p> and so on\n <a href=\"world\" title=\"\">hello there</a></p>\n"
+  },
+  { 
+    "section": "Ids",
+    "example": 602,
+    "markdown": "> [hello there]: world\n> and so on\n [hello there]",
+    "html": "<blockquote><p>and so on\n <a href=\"world\" title=\"\">hello there</a></p>\n</blockquote>\n"
   }
+
 ]

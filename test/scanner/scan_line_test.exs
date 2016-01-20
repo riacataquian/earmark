@@ -76,19 +76,22 @@ defmodule Earmark.Scanner.ScanLineTest do
     # IdClose
     # { "[foo]",     [ %Scanner.IdClose{id: "foo"} ]},
     # { " [foo]",    [ %Scanner.Text{content: " "}, %Scanner.IdClose{id: "foo"} ]},
-    # { "> [x]",     [ %Scanner.Blockquote{}, %Scanner.Text{content: " [x]"}]},
+    # { "> [x]",     [ %Scanner.Blockquote{}, %Scanner.IdClose{id: "x"}]},
     # { "    a [x]", [ %Scanner.Indent{count: 4}, %Scanner.Text{content: "a [x]"}]},
     # { " a    [x]", [ %Scanner.Text{content: " a    "}, %Scanner.IdClose{id: "x"}]},
+    # { "[ bar ] hello", [ %Scanner.IdClose{id: "bar"}, %Scanner.Text{content: "hello"} ]},
     # { " a[x]:",    [ %Scanner.Text{content: " a[x]:"}]},
 
     # IdOpen
-    { "[ bar ]:",  [ %Scanner.IdOpen{id: " bar "} ]},
-    { " [ bar ]:", [ %Scanner.Text{content: " "}, %Scanner.IdOpen{id: " bar "} ]},
-    { "x[ bar ]:", [ %Scanner.Text{content: "x[ bar ]:"} ]},
-    { "> [x]",     [ %Scanner.Blockquote{}, %Scanner.Text{content: " [x]"}]},
-    { "    a [x]:", [ %Scanner.Indent{count: 4}, %Scanner.Text{content: "a [x]:"}]},
-    { " a    [x]:", [ %Scanner.Text{content: " a    [x]:"}]},
-    { " a[x]:",     [ %Scanner.Text{content: " a[x]:"}]},
+    { "[ bar ]: foo",   [ %Scanner.IdOpen{id: " bar ", href: "foo"} ]},
+    { "> [ bar ]: foo", [ %Scanner.Blockquote{}, %Scanner.IdOpen{id: " bar ", href: "foo"} ]},
+    { "[ bar ]:",       [ %Scanner.Text{content: "[ bar ]:"} ]},
+    { " [ bar ]:",      [ %Scanner.Text{content: " [ bar ]:"} ]},
+    { "x[ bar ]:",      [ %Scanner.Text{content: "x[ bar ]:"} ]},
+    { "> [x]:",         [ %Scanner.Blockquote{}, %Scanner.Text{content: "[x]:"}]},
+    { "    a [x]: y",   [ %Scanner.Indent{count: 4}, %Scanner.Text{content: "a [x]: y"}]},
+    { " a    [x]: y",   [ %Scanner.Text{content: " a    [x]: y"}]},
+    { " a[x]:",         [ %Scanner.Text{content: " a[x]:"}]},
   ]
   |> Enum.each(fn { text, tokens } -> 
     test("line: '" <> text <> "'") do
