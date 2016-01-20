@@ -5,4 +5,5 @@ erl_crash.dump
 *.ez
 .tmux.rb
 tmp/*
+.tool-versions
 .mix_tasks
